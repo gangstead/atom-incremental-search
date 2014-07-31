@@ -121,7 +121,7 @@ class InputView extends View
 
   stopSearch: ->
     # Enter was pressed, so leave the cursor at its current position and clean up.
-    @searchModel.stopSearch()
+    @searchModel.stopSearch(@findEditor.getText())
     @detach()
 
   cancelSearch: ->

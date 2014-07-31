@@ -89,7 +89,18 @@ class SearchModel
 
       @updateMarkers()
 
-  stopSearch: ->
+  stopSearch: (pattern) ->
+    # If the user has typed faster than the change events and pressed Enter, we will not have
+    # actually performed the search for the full pattern.
+
+    if pattern and pattern isnt @pattern and @editSession
+      @pattern = pattern
+      buffer = @editSession.getBuffer()
+      func = buffer[if @direction is 'forward' then 'scan' else 'backwardsScan']
+      func.call buffer, @getRegex(), ({range, stop}) =>
+        @editSession.setSelectedBufferRange(range)
+        stop()
+
     @cleanup()
 
   cancelSearch: ->
