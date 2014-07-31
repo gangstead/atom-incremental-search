@@ -35,7 +35,6 @@ class InputView extends View
     @command 'incremental-search:toggle-case-option', @toggleCaseOption
 
     @searchModel.on 'updatedOptions', =>
-      console.log('got event')
       @updateOptionButtons()
       @updateOptionsLabel()
 
@@ -101,8 +100,11 @@ class InputView extends View
     if initial
       # The model keeps track of where the search started.  If we haven't done that yet
       # then we are starting a new search.
-      @findEditor.setText('');
-      @searchModel.start('')
+      #
+      # If there is a selection, use it.
+      pattern = atom.workspace.getActivePaneItem()?.getSelectedText() || ''
+      @findEditor.setText(pattern);
+      @searchModel.start(pattern)
     else if @findEditor.getText()
       # We already have text in the box, so search for the next item
       @searchModel.findNext()
