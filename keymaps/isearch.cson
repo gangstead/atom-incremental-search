@@ -1,0 +1,12 @@
+
+# For emacs compatability, use ctrl-s and ctrl-r
+
+'.platform-darwin .workspace .editor:not(.mini)':
+  'cmd-i': 'incremental-search:forward'
+  'shift-cmd-i': 'incremental-search:backward'
+
+'.platform-darwin .workspace .isearch .editor':
+  'cmd-i': 'incremental-search:forward'
+  'shift-cmd-i': 'incremental-search:backward'
+  'cmd-r' : 'incremental-search:toggle-regex-option'
+  'cmd-c' : 'incremental-search:toggle-case-option'
