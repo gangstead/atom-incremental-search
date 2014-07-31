@@ -2,31 +2,65 @@
 
 An incremental search package for Atom designed for fast navigation.
 
-## Using
+Press `cmd-i` and start typing what you want to find - the package will highlight all instances what you've typed
+so far and move the cursor to the closest result.  Each time you type a character or change
+the search string, the results are updated and the cursor is moved on the fly.
 
-Press cmd-i to start a search.  This opens an edit control at the bottom of the screen, similar
-to Atom's normal find.  Search results are identified as you type and the cursor moves to the
-nearest result called the "current result".  It is highlighted slightly more than others.
-Press cmd-i again to move the cursor from the current result to the next one.  Press
-shift-cmd-i to search in reverse.
+To move the cursor forward to the next result, press `cmd-i` again.  To move backwards to a
+previous result press `shift-cmd-i`.  Using these while in the find editor will quickly move
+you through file.
 
-To stop a search and leave the cursor on the current search result, press Enter.  To cancel
-the search and return the cursor to where it was before the search, press Escape.
+When you've found the text you are looking for, press `enter` to stop the search and leave the
+cursor on the search result.  To cancel the search and return to where you started, press `esc`.
 
-The case-sensitive button and use-regular-exprssion buttons can be toggled while in the
-search control using cmd-c and cmd-r, respectively.  These are normally cleared when a
-search is stopped or canceled so the next search starts without them.  The package setting
-"Keep Options After Search" will cause the options to be kept for the next search.
+## Options
 
-## History
+The package supports both case sensitive searching and regular expressions.  The state of the
+options are displayed next to the search pane's title:
 
-When you press cmd-i or shift-cmd-i to start a search, the search field is always empty.
-Press cmd-i or shift-cmd-i again to populate it with the previous search.
+![no options](http://mkleehammer.github.com/atom-incremental-search/images/label-no-options.png)
+
+![options](http://mkleehammer.github.com/atom-incremental-search/images/label-options.png)
+
+You can toggle the options using the buttons on the right of the pane or using `cmd-r` (regular
+expression) and `cmd-c` (case sensitivity):
+
+![buttons](http://mkleehammer.github.com/atom-incremental-search/images/buttons.png)
+
+These options are normally turned off when a search is stopped or canceled so the next search
+starts without them.  The package setting "Keep Options After Search" will cause the options to
+be kept for the next search.
+
+## Selection and History
+
+When you start a search the search editor is normally empty.  Pressing `cmd-i` or `shift-cmd-i`
+again will populate the search with the last used search.
+
+If you have selected text before starting a search, the search will default to your selection.
 
 At this time only 1 previous search is remembered and it is not stored between sessions.
-
 In an update, more history will be stored and each history item will record the options used.
 The history will also be stored between sessions.
+
+## Key Binding Summary
+
+### OS X
+
+To start an incremental search:
+
+* `cmd-i` - start a forward incremental search
+* `shift-cmd-i` - start a backward incremental search
+
+Once you've started an incremental search:
+
+* type text characters to search - the results are updated
+* `cmd-i` - move cursor forward to next result
+* `shift-cmd-i` - move cursor backward to previous result
+* `return` - stop the search and leave the cursor where it is
+* `esc` - cancel the search and return the cursor to where it was before searching
+* `cmd-r` - toggle regular expressions
+* `cmd-c` - toggle case sensitivity
+* `cmd-e` - set focus to the code editor without canceling search
 
 ## Differences From Atom's Find
 

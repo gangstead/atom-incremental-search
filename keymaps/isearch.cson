@@ -10,3 +10,4 @@
   'shift-cmd-i': 'incremental-search:backward'
   'cmd-r' : 'incremental-search:toggle-regex-option'
   'cmd-c' : 'incremental-search:toggle-case-option'
+  'cmd-e' : 'incremental-search:focus-editor'

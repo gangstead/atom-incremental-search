@@ -34,6 +34,8 @@ class InputView extends View
     @command 'incremental-search:toggle-regex-option', @toggleRegexOption
     @command 'incremental-search:toggle-case-option', @toggleCaseOption
 
+    @command 'incremental-search:focus-editor', -> atom.workspaceView.getActiveView()?.focus()
+
     @searchModel.on 'updatedOptions', =>
       @updateOptionButtons()
       @updateOptionsLabel()
@@ -83,29 +85,26 @@ class InputView extends View
     # buffer, and now wants to continue.  (I expect this to be tweaked over time.)
     #
     # Always record the direction in case it changed.
-    #
-    # If focus was in the edit control then we need to search.  If the edit control is empty,
-    # first populate with the previous search.
 
-    initial = not @hasParent()
-
-    if not @hasParent()
-      atom.workspaceView.prependToBottom(this)
+    @searchModel.direction = direction
 
     @updateOptionsLabel()
     @updateOptionButtons()
 
-    @searchModel.direction = direction
-
-    if initial
-      # The model keeps track of where the search started.  If we haven't done that yet
-      # then we are starting a new search.
-      #
-      # If there is a selection, use it.
+    if not @hasParent()
+      # This is a new search.
+      atom.workspaceView.prependToBottom(this)
       pattern = atom.workspace.getActivePaneItem()?.getSelectedText() || ''
       @findEditor.setText(pattern);
       @searchModel.start(pattern)
-    else if @findEditor.getText()
+
+    if not @findEditor.hasClass('is-focused')
+      # The cursor isn't in the editor, so this is either a new search or the user was
+      # somewhere else.  Just put the cursor into the editor.
+      @findEditor.focus()
+      return
+
+    if @findEditor.getText()
       # We already have text in the box, so search for the next item
       @searchModel.findNext()
     else
@@ -114,10 +113,6 @@ class InputView extends View
         pattern = @searchModel.history[@searchModel.history.length-1]
         @findEditor.setText(pattern)
         @searchModel.update({ pattern })
-
-    if not @findEditor.is(':focus')
-      @findEditor.focus()
-      return
 
   stopSearch: ->
     # Enter was pressed, so leave the cursor at its current position and clean up.
