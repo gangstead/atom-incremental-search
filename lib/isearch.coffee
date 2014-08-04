@@ -5,7 +5,7 @@ InputView = require './input-view'
 
 module.exports =
   configDefaults:
-    keepOptionsAfterSearch: true,
+    keepOptionsAfterSearch: true
 
   inputView: null
 
