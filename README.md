@@ -42,6 +42,20 @@ At this time only 1 previous search is remembered and it is not stored between s
 In an update, more history will be stored and each history item will record the options used.
 The history will also be stored between sessions.
 
+## Overriding Styles
+
+The default result styles are copied from Atom's find-and-replace package so it will look
+familiar, but it uses custom classes which you can style.  To style the current result use `.editor .isearch-current .region`.  To style other results `.editor .isearch-result .region`.
+
+For example, to change the border around the current search result to red, you would add
+the following to your ~/.atom/styles.less file:
+
+```css
+.editor .isearch-current .region {
+  border: 1px solid red;
+}
+```
+
 ## Key Binding Summary
 
 ### OS X
