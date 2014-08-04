@@ -41,6 +41,11 @@ class SearchModel
     # are destroyed but we do need to track this one since we can change the current result
     # without destroying markers.
 
+    @lastPosition = null
+    # The buffer range of @currentMarker.  Since we no longer move the cursor to the current
+    # result we need keep track of the current position ourselves.  We can't just use
+    # @currentMarker since there are no markers when there are no search result matches.
+
     @pattern = ''
     @direction = 'forward'
     @useRegex = state.useRegex ? false
@@ -79,7 +84,6 @@ class SearchModel
         @updateMarkers()
 
       markerAttributes =
-        class: 'isearch-start'
         invalidate: 'inside'
         replicate: false
         persistent: false
@@ -100,8 +104,15 @@ class SearchModel
       func.call buffer, @getRegex(), ({range, stop}) =>
         @editSession.setSelectedBufferRange(range)
         stop()
+    else
+      @moveCursorToCurrent()
 
     @cleanup()
+
+  moveCursorToCurrent: ->
+    # Move the cursor to the current result (or last result if there are none now).
+    if @lastPosition
+      @editSession.setSelectedBufferRange(@lastPosition)
 
   cancelSearch: ->
     if @startMarker
@@ -118,6 +129,7 @@ class SearchModel
 
     @startMarker.destroy() if @startMarker
     @startMarker = null
+    @lastPosition = null
 
     @destroyResultMarkers()
 
@@ -165,24 +177,23 @@ class SearchModel
     # Move the cursor to the closest result.  If `force` is set, the cursor must move even if
     # there is a valid result where the cursor is.
 
-    @currentMarker = (@direction is 'forward') && @firstMarkerAfterCursor(force) || @firstMarkerBeforeCursor(force)
+    @currentMarker = (@direction is 'forward') && @findMarkerForward(force) || @findMarkerBackward(force)
 
     @currentDecoration?.destroy()
     @currentDecoration = null
 
     if @currentMarker
-      @editSession.setSelectedBufferRange(@currentMarker.getBufferRange(), autoscroll: true, flash: true)
+      @editSession.scrollToScreenRange(@currentMarker.getScreenRange())
       @currentDecoration = @editSession.decorateMarker(@currentMarker, type: 'highlight', class: @constructor.currentClass)
 
+      @lastPosition = @currentMarker.getBufferRange() # TODO: buffer or screen?
 
-  firstMarkerAfterCursor: (force) ->
+  findMarkerForward: (force) ->
     if not @markers.length
       return null
 
-    selection = @editSession.getSelection()
-    selectedRange = selection.getBufferRange()
-    {start, end} = selectedRange
-    start = end if selection.isReversed()
+    range = @lastPosition || @startMarker?.getScreenRange() || @editSession.getSelection().getBufferRange()
+    start = range.start
 
     for marker in @markers
       markerStartPosition = marker.bufferMarker.getStartPosition()
@@ -193,13 +204,12 @@ class SearchModel
     # Wrap around to the first one
     @markers[0]
 
-  firstMarkerBeforeCursor: (force) ->
+  findMarkerBackward: (force) ->
     if not @markers.length
       return null
 
-    selection = @editSession.getSelection()
-    {start, end} = selection.getBufferRange()
-    start = end if selection.isReversed()
+    range = @lastPosition || @startMarker?.getScreenRange() || @editSession.getSelection().getBufferRange()
+    start = range.start
 
     prev = null
 

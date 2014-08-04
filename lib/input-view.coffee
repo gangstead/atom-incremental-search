@@ -34,7 +34,7 @@ class InputView extends View
     @command 'incremental-search:toggle-regex-option', @toggleRegexOption
     @command 'incremental-search:toggle-case-option', @toggleCaseOption
 
-    @command 'incremental-search:focus-editor', -> atom.workspaceView.getActiveView()?.focus()
+    @command 'incremental-search:focus-editor', => @focusEditor()
 
     @searchModel.on 'updatedOptions', =>
       @updateOptionButtons()
@@ -64,7 +64,6 @@ class InputView extends View
     pattern = @findEditor.getText()
     @searchModel.update({ pattern })
 
-  # Returns an object that can be retrieved when package is activated
   serialize: ->
     modelState: @searchModel.serialize()
 
@@ -142,3 +141,8 @@ class InputView extends View
       optionButton.addClass 'selected'
     else
       optionButton.removeClass 'selected'
+
+  focusEditor: ->
+    if @searchModel.lastPosition
+      @searchModel.moveCursorToCurrent()
+      atom.workspaceView.getActiveView().focus()
