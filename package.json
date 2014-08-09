@@ -1,7 +1,7 @@
 {
   "name": "incremental-search",
   "main": "./lib/isearch",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "Incremental search for Atom",
   "activationEvents": [
     "incremental-search:forward",
