@@ -1,13 +1,29 @@
 
-# For emacs compatability, use ctrl-s and ctrl-r
+# Keys that take effect in any normal text editor (not minibuffers).
 
 '.platform-darwin .workspace .editor:not(.mini)':
   'cmd-i': 'incremental-search:forward'
   'shift-cmd-i': 'incremental-search:backward'
+
+'.platform-win32,.platform-linux .workspace .editor:not(.mini)':
+  'ctrl-i': 'incremental-search:forward'
+  'shift-ctrl-i': 'incremental-search:backward'
+
+# Keys that only take effect in the incremental-search edit control (which has class
+# "isearch"). This means `cmd-r` in the text editor is not overridden.
 
 '.platform-darwin .workspace .isearch .editor':
   'cmd-i': 'incremental-search:forward'
   'shift-cmd-i': 'incremental-search:backward'
   'cmd-r' : 'incremental-search:toggle-regex-option'
   'cmd-c' : 'incremental-search:toggle-case-option'
-  'cmd-e' : 'incremental-search:focus-editor'
+  'cmd-enter' : 'incremental-search:focus-editor'
+  'cmd-e' : 'incremental-search:slurp'
+
+'.platform-win32,.platform-linux .workspace .isearch .editor':
+  'ctrl-i': 'incremental-search:forward'
+  'shift-ctrl-i': 'incremental-search:backward'
+  'ctrl-r' : 'incremental-search:toggle-regex-option'
+  'ctrl-c' : 'incremental-search:toggle-case-option'
+  'ctrl-enter' : 'incremental-search:focus-editor'
+  'ctrl-e' : 'incremental-search:slurp'

@@ -109,6 +109,37 @@ class SearchModel
 
     @cleanup()
 
+  slurp: ->
+    cursor = @editSession.getCursor()
+
+    text = '' # new pattern
+
+    if not @pattern.length
+      # We have not started searching yet, so copy the current selection or current word.
+
+      text = @editSession.getSelectedText()
+      if not text.length
+        start = cursor.getBufferPosition()
+        end   = cursor.getMoveNextWordBoundaryBufferPosition()
+        if end
+          text = @editSession.getTextInRange([start, end])
+
+    else if @currentMarker
+      # We have already started a search, so search from the end of the current result to the
+      # next word boundary.
+
+      {start, end} = @currentMarker.getBufferRange()
+      scanRange = [end, @editSession.getEofBufferPosition()]
+      @editSession.scanInBufferRange cursor.wordRegExp(), scanRange, ({range, stop}) =>
+        if not range.end?.isEqual(end) # needed because we should start at `end+1`
+          text = @editSession.getTextInRange([start, range.end])
+          stop()
+
+    if text.length
+      @pattern = text
+      @updateMarkers()
+
+
   moveCursorToCurrent: ->
     # Move the cursor to the current result (or last result if there are none now).
     if @lastPosition

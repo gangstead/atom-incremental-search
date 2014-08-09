@@ -36,6 +36,8 @@ class InputView extends View
 
     @command 'incremental-search:focus-editor', => @focusEditor()
 
+    @command 'incremental-search:slurp', => @slurp()
+
     @searchModel.on 'updatedOptions', =>
       @updateOptionButtons()
       @updateOptionsLabel()
@@ -49,6 +51,10 @@ class InputView extends View
   hideAllTooltips: ->
     @regexOptionButton.hideTooltip()
     @caseOptionButton.hideTooltip()
+
+  slurp: ->
+    @searchModel.slurp()
+    @findEditor.setText(@searchModel.pattern)
 
   toggleRegexOption: =>
     @searchModel.update({pattern: @findEditor.getText(), useRegex: !@searchModel.useRegex})
@@ -93,7 +99,7 @@ class InputView extends View
     if not @hasParent()
       # This is a new search.
       atom.workspaceView.prependToBottom(this)
-      pattern = atom.workspace.getActivePaneItem()?.getSelectedText() || ''
+      pattern = ''
       @findEditor.setText(pattern);
       @searchModel.start(pattern)
 
