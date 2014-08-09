@@ -3,9 +3,9 @@
 An incremental search package for Atom designed for fast navigation.
 
 Press `cmd-i` (OS X) or `ctrl-i` (Windows & Linux) and start typing what you want to find - the
-package will highlight all instances what you've typed so far and move the cursor to the
-closest result.  Each time you type a character or change the search string, the results are
-updated and the cursor is moved on the fly.
+package will highlight all instances of what you've typed so far and scroll to the closest
+result.  Each time you type a character or change the search string, the results are updated
+on the fly and the editor is scrolled to the new results.
 
 To move the cursor forward to the next result, press `cmd-i`/`ctrl-i` again.  To move backwards
 to a previous result press `shift-cmd-i` / `shift-ctrl-i`.  Using these while in the find
@@ -19,9 +19,9 @@ cursor on the search result.  To cancel the search and return to where you start
 In the find control, pressing `cmd-e` (OS X) or `ctrl-e` (Windows & Linux) will copy text from
 the text editor into the find control.
 
-When a search is started, the find control is empty.  If there is a selection in the code
-editor, the first slurp will copy the selection.  Otherwise it will copy from the cursor to the
-end of the current word.
+When a search is started, the find control is empty.  If there is a selection in the text
+editor, the first slurp will copy it.  Otherwise it will copy from the cursor to the end of the
+current word.
 
 Once a search has begun, slurping copies from the end of the current result to the next word
 boundary.  If a search has begun and there are no results, slurping will do nothing.
