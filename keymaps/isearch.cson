@@ -20,7 +20,7 @@
   'cmd-enter' : 'incremental-search:focus-editor'
   'cmd-e' : 'incremental-search:slurp'
 
-'.platform-win32,.platform-linux .workspace .isearch .editor':
+'.platform-win32 .workspace .isearch .editor, .platform-linux .workspace .isearch .editor':
   'ctrl-i': 'incremental-search:forward'
   'shift-ctrl-i': 'incremental-search:backward'
   'ctrl-r' : 'incremental-search:toggle-regex-option'
