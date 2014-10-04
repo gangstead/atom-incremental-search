@@ -276,10 +276,15 @@ class SearchModel
     flags = 'g'
     flags += 'i' unless @caseSensitive
 
+    normalSearchRegex = RegExp(_.escapeRegExp(@pattern), flags)
+
     if @useRegex
-      new RegExp(@pattern, flags)
+      try
+        new RegExp(@pattern, flags)
+      catch
+        normalSearchRegex
     else
-      new RegExp(_.escapeRegExp(@pattern), flags)
+      normalSearchRegex
 
   createMarker: (range) ->
     markerAttributes =
