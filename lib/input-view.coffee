@@ -5,7 +5,7 @@ SearchModel = require './search-model'
 module.exports =
 class InputView extends View
   @content: ->
-    @div tabIndex: -1, class: 'isearch tool-panel panel-bottom', =>
+    @div tabIndex: -1, class: 'isearch tool-panel panel-bottom padded', =>
       @div class: 'block', =>
         @span outlet: 'descriptionLabel', class: 'description', 'Incremental Search'
         @span outlet: 'optionsLabel', class: 'options'
