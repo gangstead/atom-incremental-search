@@ -100,7 +100,7 @@ class InputView extends View
       # This is a new search.
       atom.workspaceView.prependToBottom(this)
       pattern = ''
-      @findEditor.setText(pattern);
+      @findEditor.setText(pattern)
       @searchModel.start(pattern)
 
     if not @findEditor.hasClass('is-focused')
