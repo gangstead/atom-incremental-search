@@ -24,7 +24,7 @@ module.exports =
   deactivate: ->
     if @inputView
       @inputView.destroy()
-      @inputView = null;
+      @inputView = null
 
   # serialize: ->
   #   isearchViewState: @inputView.serialize()
