@@ -147,7 +147,7 @@ class SearchModel
 
   cancelSearch: ->
     if @startMarker
-      @editSession?.getCursor().setBufferPosition(@startMarker.getHeadBufferPosition())
+      @editSession?.getCursor()?.setBufferPosition(@startMarker.getHeadBufferPosition())
     @cleanup()
 
   cleanup: ->
