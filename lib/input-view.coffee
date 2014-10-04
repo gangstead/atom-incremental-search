@@ -34,6 +34,9 @@ class InputView extends View
     @command 'incremental-search:toggle-regex-option', @toggleRegexOption
     @command 'incremental-search:toggle-case-option', @toggleCaseOption
 
+    @regexOptionButton.on 'click', @toggleRegexOption
+    @caseOptionButton.on 'click', @toggleCaseOption
+
     @command 'incremental-search:focus-editor', => @focusEditor()
 
     @command 'incremental-search:slurp', => @slurp()
