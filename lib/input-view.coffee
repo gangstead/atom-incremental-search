@@ -101,7 +101,8 @@ class InputView extends View
 
     if not @hasParent()
       # This is a new search.
-      atom.workspaceView.prependToBottom(this)
+      atom.workspace.addBottomPanel
+        item: this
       pattern = ''
       @findEditor.setText(pattern)
       @searchModel.start(pattern)
