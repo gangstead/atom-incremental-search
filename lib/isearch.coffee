@@ -1,4 +1,4 @@
-{$} = require 'jquery'
+{$} = require 'atom-space-pen-views'
 {Subscriber} = require 'emissary'
 
 InputView = require './input-view'

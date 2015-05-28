@@ -18,7 +18,6 @@
   "dependencies": {
     "emissary": "1.x",
     "underscore-plus": "1.x",
-    "jquery": "^2",
     "atom-space-pen-views": "^2.0.3"
   }
 }
