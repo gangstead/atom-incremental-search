@@ -3,18 +3,22 @@
   "main": "./lib/isearch",
   "version": "4.3.0",
   "description": "Incremental search for Atom",
-  "activationEvents": [
-    "incremental-search:forward",
-    "incremental-search:backward"
-  ],
-  "repository": "https://github.com/mkleehammer/atom-incremental-search",
-  "bugs": "https://github.com/mkleehammer/atom-incremental-search/issues",
+  "activationCommands": {
+    "atom-workspace": [
+      "incremental-search:forward",
+      "incremental-search:backward"
+    ]
+  },
+  "repository": "https://github.com/gangstead/atom-incremental-search",
+  "bugs": "https://github.com/gangstead/atom-incremental-search/issues",
   "license": "MIT",
   "engines": {
     "atom": ">0.50.0"
   },
   "dependencies": {
     "emissary": "1.x",
-    "underscore-plus": "1.x"
+    "underscore-plus": "1.x",
+    "jquery": "^2",
+    "atom-space-pen-views": "^2.0.3"
   }
 }
