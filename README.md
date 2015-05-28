@@ -1,6 +1,6 @@
 # incremental-search package
 
-**This package has been unpublished because I am no longer using Atom.  Let me know if you are willing to take this project over.**
+**Update I (@gangstead) have taken ownership of the package.  Bear with me as it gets updated and republished**
 
 An incremental search package for Atom designed for fast navigation.
 
