@@ -1,4 +1,4 @@
-{$, View, EditorView} = require 'atom'
+{View, TextEditorView} = require 'atom-space-pen-views'
 
 SearchModel = require './search-model'
 
@@ -12,7 +12,7 @@ class InputView extends View
 
       @div class: 'find-container block', =>
         @div class: 'editor-container', =>
-          @subview 'findEditor', new EditorView(mini: true, placeholderText: 'search')
+          @subview 'findEditor', new TextEditorView(mini: true, placeholderText: 'search')
 
         @div class: 'btn-group btn-toggle btn-group-options', =>
           @button outlet: 'regexOptionButton', class: 'btn', '.*'
