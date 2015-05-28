@@ -1,11 +1,13 @@
-{$} = require 'atom'
+{$} = require 'jquery'
 {Subscriber} = require 'emissary'
 
 InputView = require './input-view'
 
 module.exports =
-  configDefaults:
-    keepOptionsAfterSearch: true
+  config:
+    keepOptionsAfterSearch:
+      type: 'boolean'
+      default: true
 
   inputView: null
 
