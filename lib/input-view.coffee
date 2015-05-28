@@ -25,30 +25,36 @@ class InputView extends View
 
   handleEvents: ->
     # Setup event handlers
+    @findEditor.getModel().onDidStopChanging => @updateSearchText()
 
-    @on 'core:cancel core:close', => @cancelSearch()
-
-    @findEditor.on 'core:confirm', => @stopSearch()
-    @findEditor.getEditor().on 'contents-modified', => @updateSearchText()
-
-    @command 'incremental-search:toggle-regex-option', @toggleRegexOption
-    @command 'incremental-search:toggle-case-option', @toggleCaseOption
+    if @length > 0
+      atom.commands.add @[0], 'core:confirm', =>@stopSearch()
+      atom.commands.add @[0], 'core:cancel core:close', => @cancelSearch()
+      atom.commands.add @[0], 'incremental-search:toggle-regex-option', @toggleRegexOption
+      atom.commands.add @[0], 'incremental-search:toggle-case-option', @toggleCaseOption
+      atom.commands.add @[0], 'incremental-search:focus-editor', => @focusEditor()
+      atom.commands.add @[0], 'incremental-search:slurp', => @slurp()
 
     @regexOptionButton.on 'click', @toggleRegexOption
     @caseOptionButton.on 'click', @toggleCaseOption
 
-    @command 'incremental-search:focus-editor', => @focusEditor()
 
-    @command 'incremental-search:slurp', => @slurp()
 
     @searchModel.on 'updatedOptions', =>
       @updateOptionButtons()
       @updateOptionsLabel()
 
-  afterAttach: ->
+  attached: ->
     unless @tooltipsInitialized
-      @regexOptionButton.setTooltip("Use Regex", command: 'incremental-search:toggle-regex-option', commandElement: @findEditor)
-      @caseOptionButton.setTooltip("Match Case", command: 'incremental-search:toggle-case-option', commandElement: @findEditor)
+      debugger;
+      atom.tooltips.add @regexOptionButton,
+        title: "Use Regex"
+        keyBindingCommand: 'incremental-search:toggle-regex-option'
+        keyBindingTarget: @findEditor[0]
+      atom.tooltips.add @caseOptionButton,
+        title: "Match Case"
+        keyBindingCommand: 'incremental-search:toggle-case-option'
+        keyBindingTarget: @findEditor[0]
       @tooltipsInitialized = true
 
   hideAllTooltips: ->

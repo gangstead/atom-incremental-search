@@ -63,7 +63,7 @@ class SearchModel
 
   activePaneItemChanged: ->
     if @editSession
-      @editSession.getBuffer().off(".isearch")
+      @editSession.getBuffer().off(".isearch") #TODO: change to dispose of subscription
       @editSession = null
       @destroyResultMarkers()
 
@@ -80,7 +80,7 @@ class SearchModel
     paneItem = atom.workspace.getActivePaneItem()
     if paneItem?.getBuffer?()?
       @editSession = paneItem
-      @editSession.getBuffer().on "contents-modified.isearch", (args) =>
+      @editSession.getBuffer().onDidStopChanging (args) =>  #TODO: store returned subscription for later disposal
         @updateMarkers()
 
       markerAttributes =
@@ -165,7 +165,7 @@ class SearchModel
     @destroyResultMarkers()
 
     if @editSession
-      @editSession.getBuffer().off(".isearch")
+      @editSession.getBuffer().off(".isearch") #TODO: change to dispose of subscription
       @editSession = null
 
     if @pattern and @history[@history.length-1] isnt @pattern
