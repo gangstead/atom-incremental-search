@@ -1,5 +1,7 @@
 # incremental-search package
 
+**This package has been unpublished because I am no longer using Atom.  Let me know if you are willing to take this project over.**
+
 An incremental search package for Atom designed for fast navigation.
 
 Press `cmd-i` (OS X) or `ctrl-i` (Windows & Linux) and start typing what you want to find - the
