@@ -61,7 +61,6 @@ class InputView extends View
         title: "Match Case"
         keyBindingCommand: 'incremental-search:toggle-case-option'
         keyBindingTarget: @findEditor[0]
-      @tooltipsInitialized = true
 
   hideAllTooltips: ->
     @tooltipSubscriptions?.dispose()
