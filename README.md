@@ -9,11 +9,11 @@ package will highlight all instances of what you've typed so far and scroll to t
 result.  Each time you type a character or change the search string, the results are updated
 on the fly and the editor is scrolled to the new results.
 
-To move the cursor forward to the next result, press `cmd-i`/`ctrl-i` again.  To move backwards
+To move the cursor forward to the next result, press 'enter' or `cmd-i`/`ctrl-i` again.  To move backwards
 to a previous result press `shift-cmd-i` / `shift-ctrl-i`.  Using these while in the find
 editor will quickly move you through file.
 
-When you've found the text you are looking for, press `enter` to stop the search and leave the
+When you've found the text you are looking for, press `esc` to stop the search and leave the
 cursor on the search result.  To cancel the search and return to where you started, press `esc`.
 
 ## Slurping
@@ -33,14 +33,14 @@ boundary.  If a search has begun and there are no results, slurping will do noth
 The package supports both case sensitive searching and regular expressions.  The state of the
 options are displayed next to the search pane's title:
 
-![no options](http://mkleehammer.github.com/atom-incremental-search/images/label-no-options.png)
+![no options](http://gangstead.github.com/atom-incremental-search/images/label-no-options.png)
 
-![options](http://mkleehammer.github.com/atom-incremental-search/images/label-options.png)
+![options](http://gangstead.github.com/atom-incremental-search/images/label-options.png)
 
 You can toggle the options using the buttons on the right of the pane or using `cmd-r` (regular
 expression) and `cmd-c` (case sensitivity):
 
-![buttons](http://mkleehammer.github.com/atom-incremental-search/images/buttons.png)
+![buttons](http://gangstead.github.com/atom-incremental-search/images/buttons.png)
 
 These options are normally turned off when a search is stopped or canceled so the next search
 starts without them.  The package setting "Keep Options After Search" will cause the options to
