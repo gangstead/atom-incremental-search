@@ -1,5 +1,5 @@
 {$} = require 'atom-space-pen-views'
-{Subscriber} = require 'emissary'
+{CompositeDisposable} = require 'atom'
 
 InputView = require './input-view'
 
@@ -12,26 +12,32 @@ module.exports =
   inputView: null
 
   activate: (state) ->
-    @subscriber = new Subscriber()
-    @subscriber.subscribeToCommand atom.workspaceView, 'incremental-search:forward', => @findPressed('forward')
-    @subscriber.subscribeToCommand atom.workspaceView, 'incremental-search:backward', => @findPressed('backward')
+    @subscriber = new CompositeDisposable
+    @subscriber.add atom.commands.add 'atom-workspace', 'incremental-search:forward', => @findPressed('forward')
+    @subscriber.add atom.commands.add 'atom-workspace', 'incremental-search:backward', => @findPressed('backward')
 
-    @subscriber.subscribeToCommand atom.workspaceView, 'core:cancel core:close', ({target}) =>
-      if target isnt atom.workspaceView.getActivePaneView()?[0]
-        editor = $(target).parents('.editor:not(.mini)')
-        return unless editor.length
+    handleEditorCancel = ({target}) =>
+      isMiniEditor = target.tagName is 'ATOM-TEXT-EDITOR' and target.hasAttribute('mini')
+      unless isMiniEditor
+        @inputView?.inputPanel.hide()
 
-      @inputView?.detach()
+    @subscriber.add atom.commands.add 'atom-workspace',
+      'core:cancel': handleEditorCancel
+      'core:close': handleEditorCancel
 
   deactivate: ->
-    if @inputView
-      @inputView.destroy()
-      @inputView = null
+    @inputView?.destroy()
+    @inputView = null
 
   # serialize: ->
   #   isearchViewState: @inputView.serialize()
 
   findPressed: (direction) ->
-    if not @inputView
-      @inputView = new InputView()
+    @createViews()
+
     @inputView.trigger(direction)
+
+  createViews: ->
+    return if @inputView?
+
+    @inputView = new InputView()

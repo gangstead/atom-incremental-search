@@ -1,4 +1,5 @@
 {View, TextEditorView} = require 'atom-space-pen-views'
+{CompositeDisposable} = require 'atom'
 
 SearchModel = require './search-model'
 
@@ -19,6 +20,7 @@ class InputView extends View
           @button outlet: 'caseOptionButton', class: 'btn', 'Aa'
 
   initialize: (serializeState) ->
+    @subscriptions = new CompositeDisposable
     serializeState = serializeState || {}
     @searchModel = new SearchModel(serializeState.modelState)
     @handleEvents()
@@ -27,13 +29,16 @@ class InputView extends View
     # Setup event handlers
     @findEditor.getModel().onDidStopChanging => @updateSearchText()
 
-    if @length > 0
-      atom.commands.add @[0], 'core:confirm', =>@stopSearch()
-      atom.commands.add @[0], 'core:cancel core:close', => @cancelSearch()
-      atom.commands.add @[0], 'incremental-search:toggle-regex-option', @toggleRegexOption
-      atom.commands.add @[0], 'incremental-search:toggle-case-option', @toggleCaseOption
-      atom.commands.add @[0], 'incremental-search:focus-editor', => @focusEditor()
-      atom.commands.add @[0], 'incremental-search:slurp', => @slurp()
+    @subscriptions.add atom.commands.add @findEditor.element,
+      'core:confirm': => @trigger('forward') # jump to next match, previously did @stopSearch()
+
+    @subscriptions.add atom.commands.add @element,
+      'core:close': => @cancelSearch()
+      'core:cancel': => @cancelSearch()
+      'incremental-search:toggle-regex-option': @toggleRegexOption
+      'incremental-search:toggle-case-option': @toggleCaseOption
+      'incremental-search:focus-editor': => @focusEditor()
+      'incremental-search:slurp': => @slurp()
 
     @regexOptionButton.on 'click', @toggleRegexOption
     @caseOptionButton.on 'click', @toggleCaseOption
@@ -45,21 +50,22 @@ class InputView extends View
       @updateOptionsLabel()
 
   attached: ->
-    unless @tooltipsInitialized
-      debugger;
-      atom.tooltips.add @regexOptionButton,
+    return if @tooltipSubscriptions?
+    @tooltipSubscriptions = new CompositeDisposable
+
+    @tooltipSubscriptions.add  atom.tooltips.add @regexOptionButton,
         title: "Use Regex"
         keyBindingCommand: 'incremental-search:toggle-regex-option'
         keyBindingTarget: @findEditor[0]
-      atom.tooltips.add @caseOptionButton,
+    @tooltipSubscriptions.add atom.tooltips.add @caseOptionButton,
         title: "Match Case"
         keyBindingCommand: 'incremental-search:toggle-case-option'
         keyBindingTarget: @findEditor[0]
       @tooltipsInitialized = true
 
   hideAllTooltips: ->
-    @regexOptionButton.hideTooltip()
-    @caseOptionButton.hideTooltip()
+    @tooltipSubscriptions?.dispose()
+    @tooltipSubscriptions = null
 
   slurp: ->
     @searchModel.slurp()
@@ -84,11 +90,13 @@ class InputView extends View
 
   # Tear down any state and detach
   destroy: ->
-    @detach()
+    @subscriptions?.dispose()
+    @tooltipSubscriptions?.dispose()
 
   detach: ->
     @hideAllTooltips()
-    atom.workspaceView.focus()
+    workspaceElement = atom.views.getView(atom.workspace)
+    workspaceElement.focus()
     super()
 
   trigger: (direction) ->
@@ -107,12 +115,14 @@ class InputView extends View
 
     if not @hasParent()
       # This is a new search.
-      atom.workspace.addBottomPanel
+      @inputPanel = atom.workspace.addBottomPanel
         item: this
       pattern = ''
       @findEditor.setText(pattern)
       @searchModel.start(pattern)
 
+    @inputPanel.show()
+    
     if not @findEditor.hasClass('is-focused')
       # The cursor isn't in the editor, so this is either a new search or the user was
       # somewhere else.  Just put the cursor into the editor.
@@ -136,6 +146,7 @@ class InputView extends View
 
   cancelSearch: ->
     @searchModel.cancelSearch()
+    @inputPanel?.hide()
     @detach()
 
   updateOptionsLabel: ->
