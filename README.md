@@ -1,6 +1,6 @@
 # incremental-search package
 
-**Update I (@gangstead) have taken ownership of the package.  Bear with me as it gets updated and republished**
+**Update : 5/2015 Under new management: (@gangstead)**
 
 An incremental search package for Atom designed for fast navigation.
 
