@@ -7,6 +7,7 @@
 
 _ = require 'underscore-plus'
 {Emitter} = require 'emissary'
+{CompositeDisposable} = require 'atom'
 
 module.exports =
 class SearchModel
@@ -57,13 +58,13 @@ class SearchModel
 
     # @start()
     # atom.workspaceView.on 'pane-container:active-pane-item-changed', => @activePaneItemChanged()
+    @subscriptions = null
 
   hasStarted: ->
     return @startMarker is not null
 
   activePaneItemChanged: ->
     if @editSession
-      @editSession.getBuffer().off(".isearch") #TODO: change to dispose of subscription
       @editSession = null
       @destroyResultMarkers()
 
@@ -74,13 +75,15 @@ class SearchModel
 
     @cleanup()
 
+    @subscriptions = new CompositeDisposable
+
     if pattern
       @pattern = pattern
 
     paneItem = atom.workspace.getActivePaneItem()
     if paneItem?.getBuffer?()?
       @editSession = paneItem
-      @editSession.getBuffer().onDidStopChanging (args) =>  #TODO: store returned subscription for later disposal
+      @subscriptions.add @editSession.getBuffer().onDidStopChanging (args) =>
         @updateMarkers()
 
       markerAttributes =
@@ -172,6 +175,7 @@ class SearchModel
       @history.push(@pattern)
 
     @pattern = ''
+    @subscriptions?.dispose()
 
   updateMarkers: ->
     if not @editSession? or not @pattern
