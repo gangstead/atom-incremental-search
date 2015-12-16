@@ -165,7 +165,7 @@ class SearchModel
     @destroyResultMarkers()
 
     if @editSession
-      if @editSession.getBuffer?()?
+      if @editSession?getBuffer?()?
         @editSession.getBuffer().off(".isearch") #TODO: change to dispose of subscription
       @editSession = null
 
