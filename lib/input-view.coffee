@@ -30,7 +30,7 @@ class InputView extends View
     @findEditor.getModel().onDidStopChanging => @updateSearchText()
 
     @subscriptions.add atom.commands.add @findEditor.element,
-      'core:confirm': => @trigger('forward') # jump to next match, previously did @stopSearch()
+      'core:confirm': => @stopSearch()
 
     @subscriptions.add atom.commands.add @element,
       'core:close': => @cancelSearch()
