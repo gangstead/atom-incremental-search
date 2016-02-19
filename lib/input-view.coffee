@@ -121,12 +121,7 @@ class InputView extends View
       @searchModel.start(pattern)
 
     @inputPanel.show()
-
-    if not @findEditor.hasClass('is-focused')
-      # The cursor isn't in the editor, so this is either a new search or the user was
-      # somewhere else.  Just put the cursor into the editor.
-      @findEditor.focus()
-      return
+    @findEditor.focus()
 
     if @findEditor.getText()
       # We already have text in the box, so search for the next item

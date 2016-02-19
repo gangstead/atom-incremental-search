@@ -168,7 +168,6 @@ class SearchModel
     @destroyResultMarkers()
 
     if @editSession
-      @editSession.getBuffer().off(".isearch") #TODO: change to dispose of subscription
       @editSession = null
 
     if @pattern and @history[@history.length-1] isnt @pattern
