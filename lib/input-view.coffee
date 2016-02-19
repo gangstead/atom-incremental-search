@@ -27,7 +27,7 @@ class InputView extends View
 
   handleEvents: ->
     # Setup event handlers
-    @findEditor.getModel().onDidStopChanging => @updateSearchText()
+    @subscriptions.add @findEditor.getModel().onDidStopChanging => @updateSearchText()
 
     @subscriptions.add atom.commands.add @findEditor.element,
       'core:confirm': => @stopSearch()
@@ -121,7 +121,7 @@ class InputView extends View
       @searchModel.start(pattern)
 
     @inputPanel.show()
-    
+
     if not @findEditor.hasClass('is-focused')
       # The cursor isn't in the editor, so this is either a new search or the user was
       # somewhere else.  Just put the cursor into the editor.
