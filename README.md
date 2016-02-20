@@ -1,8 +1,8 @@
 # incremental-search package
 
-**Update : 2/2016 Mostly working except slurp feature**
+**Update : 2/2016** I think I have everything, including slurp, working again.  Please take another look at the package.
 
-**Update : 5/2015 Under new management: (@gangstead)**
+Update : 5/2015 Under new management: (@gangstead)
 
 An incremental search package for Atom designed for fast navigation.
 
