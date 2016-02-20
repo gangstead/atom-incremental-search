@@ -113,7 +113,7 @@ class SearchModel
     @cleanup()
 
   slurp: ->
-    cursor = @editSession.getCursor()
+    cursor = @editSession.getCursors()[0]
 
     text = '' # new pattern
 
