@@ -11,11 +11,11 @@ package will highlight all instances of what you've typed so far and scroll to t
 result.  Each time you type a character or change the search string, the results are updated
 on the fly and the editor is scrolled to the new results.
 
-To move the cursor forward to the next result, press 'enter' or `cmd-i`/`ctrl-i` again.  To move backwards
+To move the cursor forward to the next result, press `cmd-i`/`ctrl-i` again.  To move backwards
 to a previous result press `shift-cmd-i` / `shift-ctrl-i`.  Using these while in the find
 editor will quickly move you through file.
 
-When you've found the text you are looking for, press `esc` to stop the search and leave the
+When you've found the text you are looking for, press `enter` to stop the search and leave the
 cursor on the search result.  To cancel the search and return to where you started, press `esc`.
 
 ## Slurping
