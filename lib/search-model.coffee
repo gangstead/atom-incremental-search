@@ -123,7 +123,7 @@ class SearchModel
       text = @editSession.getSelectedText()
       if not text.length
         start = cursor.getBufferPosition()
-        end   = cursor.getMoveNextWordBoundaryBufferPosition()
+        end   = cursor.getNextWordBoundaryBufferPosition()
         if end
           text = @editSession.getTextInRange([start, end])
 
