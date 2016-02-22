@@ -119,19 +119,20 @@ class InputView extends View
       pattern = ''
       @findEditor.setText(pattern)
       @searchModel.start(pattern)
-
-    @inputPanel.show()
-    @findEditor.focus()
-
-    if @findEditor.getText()
-      # We already have text in the box, so search for the next item
-      @searchModel.findNext()
+      @inputPanel.show()
+      @findEditor.focus()
     else
-      # There is no text in the box so populate with the previous search.
-      if @searchModel.history.length
-        pattern = @searchModel.history[@searchModel.history.length-1]
-        @findEditor.setText(pattern)
-        @searchModel.update({ pattern })
+      @inputPanel.show()
+      @findEditor.focus()
+      if @findEditor.getText()
+        # We already have text in the box, so search for the next item
+        @searchModel.findNext()
+      else
+        # There is no text in the box so populate with the previous search.
+        if @searchModel.history.length
+          pattern = @searchModel.history[@searchModel.history.length-1]
+          @findEditor.setText(pattern)
+          @searchModel.update({ pattern })
 
   stopSearch: ->
     # Enter was pressed, so leave the cursor at its current position and clean up.
