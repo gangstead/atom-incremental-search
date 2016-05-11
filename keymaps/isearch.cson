@@ -14,7 +14,9 @@
 
 '.platform-darwin atom-workspace .isearch atom-text-editor':
   'cmd-i': 'incremental-search:forward'
+  'enter': 'incremental-search:forward'
   'shift-cmd-i': 'incremental-search:backward'
+  'shift-enter': 'incremental-search:backward'
   'cmd-r' : 'incremental-search:toggle-regex-option'
   'cmd-c' : 'incremental-search:toggle-case-option'
   'cmd-enter' : 'incremental-search:focus-editor'
@@ -22,7 +24,9 @@
 
 '.platform-win32 atom-workspace .isearch atom-text-editor, .platform-linux atom-workspace .isearch atom-text-editor':
   'ctrl-i': 'incremental-search:forward'
+  'enter': 'incremental-search:forward'
   'shift-ctrl-i': 'incremental-search:backward'
+  'shift-enter': 'incremental-search:backward'
   'ctrl-r' : 'incremental-search:toggle-regex-option'
   'ctrl-c' : 'incremental-search:toggle-case-option'
   'ctrl-enter' : 'incremental-search:focus-editor'
