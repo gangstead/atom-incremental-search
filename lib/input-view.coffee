@@ -27,7 +27,7 @@ class InputView extends View
 
   handleEvents: ->
     # Setup event handlers
-    @subscriptions.add @findEditor.getModel().onDidStopChanging => @updateSearchText()
+    @subscriptions.add @findEditor.getModel().onDidChange => @updateSearchText()
 
     @subscriptions.add atom.commands.add @findEditor.element,
       'core:confirm': => @stopSearch()
