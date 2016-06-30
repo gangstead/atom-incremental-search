@@ -56,21 +56,23 @@ class SearchModel
     @history = state.history || []
     # Previous searches.  Each entry is an object with pattern, useRegEx, and caseSensitive.
 
-    # @start()
-    # atom.workspaceView.on 'pane-container:active-pane-item-changed', => @activePaneItemChanged()
-    @subscriptions = null
+    @start()
+    atom.workspace.onDidStopChangingActivePaneItem (args) =>
+        @activePaneItemChanged()
 
   hasStarted: ->
     return @startMarker is not null
 
   activePaneItemChanged: ->
     if @editSession
+      @changeSubscription.dispose()
+      @changeSubscription = null
       @editSession = null
       @destroyResultMarkers()
 
-    @start
+    @start()
 
-  start: (pattern=None)->
+  start: (pattern)->
     # Start a new search.
 
     @cleanup()
@@ -83,8 +85,10 @@ class SearchModel
     paneItem = atom.workspace.getActivePaneItem()
     if paneItem?.getBuffer?()?
       @editSession = paneItem
-      @subscriptions.add @editSession.getBuffer().onDidStopChanging (args) =>
+      @changeSubscription = @editSession.getBuffer().onDidStopChanging (args) =>
         @updateMarkers()
+
+      @subscriptions.add @changeSubscription
 
       markerAttributes =
         invalidate: 'inside'
@@ -175,6 +179,7 @@ class SearchModel
 
     @pattern = ''
     @subscriptions?.dispose()
+    @changeSubscription?.dispose()
 
   updateMarkers: ->
     if not @editSession? or not @pattern
