@@ -5,7 +5,7 @@
   'cmd-i': 'incremental-search:forward'
   'shift-cmd-i': 'incremental-search:backward'
 
-'.platform-win32,.platform-linux atom-workspace atom-text-editor:not(.mini)':
+'.platform-win32 atom-workspace atom-text-editor:not(.mini), .platform-linux atom-workspace atom-text-editor:not(.mini)':
   'ctrl-i': 'incremental-search:forward'
   'shift-ctrl-i': 'incremental-search:backward'
 
