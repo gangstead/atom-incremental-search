@@ -96,6 +96,7 @@ class InputView extends View
     @hideAllTooltips()
     workspaceElement = atom.views.getView(atom.workspace)
     workspaceElement.focus()
+    @inputPanel?.destroy()
     super()
 
   trigger: (direction) ->
@@ -141,7 +142,6 @@ class InputView extends View
 
   cancelSearch: ->
     @searchModel.cancelSearch()
-    @inputPanel?.hide()
     @detach()
 
   updateOptionsLabel: ->
