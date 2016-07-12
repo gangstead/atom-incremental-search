@@ -8,6 +8,9 @@ module.exports =
     keepOptionsAfterSearch:
       type: 'boolean'
       default: true
+    instantSearch:
+      type: 'boolean'
+      default: false
 
   inputView: null
 

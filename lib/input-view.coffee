@@ -27,7 +27,7 @@ class InputView extends View
 
   handleEvents: ->
     # Setup event handlers
-    @subscriptions.add @findEditor.getModel().onDidChange => @updateSearchText()
+    @subscriptions.add atom.config.observe 'incremental-search.instantSearch', @handleInstantSearchConfigChange.bind(this)
 
     @subscriptions.add atom.commands.add @findEditor.element,
       'core:confirm': => @stopSearch()
@@ -43,11 +43,14 @@ class InputView extends View
     @regexOptionButton.on 'click', @toggleRegexOption
     @caseOptionButton.on 'click', @toggleCaseOption
 
-
-
     @searchModel.on 'updatedOptions', =>
       @updateOptionButtons()
       @updateOptionsLabel()
+
+  handleInstantSearchConfigChange: (instantSearch) ->
+    changeEventListener = if instantSearch then 'onDidChange' else 'onDidStopChanging'
+    @changeSubscription?.dispose()
+    @changeSubscription = @findEditor.getModel()[changeEventListener] => @updateSearchText()
 
   attached: ->
     return if @tooltipSubscriptions?
@@ -91,6 +94,7 @@ class InputView extends View
   destroy: ->
     @subscriptions?.dispose()
     @tooltipSubscriptions?.dispose()
+    @changeSubscription?.dispose()
 
   detach: ->
     @hideAllTooltips()
