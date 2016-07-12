@@ -4,14 +4,6 @@
 InputView = require './input-view'
 
 module.exports =
-  config:
-    keepOptionsAfterSearch:
-      type: 'boolean'
-      default: true
-    instantSearch:
-      type: 'boolean'
-      default: false
-
   inputView: null
 
   activate: (state) ->
