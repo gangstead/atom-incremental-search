@@ -19,5 +19,17 @@
     "emissary": "1.x",
     "underscore-plus": "1.x",
     "atom-space-pen-views": "^2.0.3"
+  },
+  "configSchema": {
+    "instantSearch": {
+      "type": "boolean",
+      "default": false,
+      "description": "Search as you type, instead of waiting until you stop typing."
+    },
+    "keepOptionsAfterSearch": {
+      "type": "boolean",
+      "default": true,
+      "description": "Keep the values of the Match Case and Use Regex options between searches."
+    }
   }
 }
