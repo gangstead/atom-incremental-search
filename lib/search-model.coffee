@@ -149,12 +149,17 @@ class SearchModel
 
   moveCursorToCurrent: ->
     # Move the cursor to the current result (or last result if there are none now).
-    if @lastPosition
+    return unless @lastPosition
+    doLandAtPoint = atom.config.get('incremental-search.landAtPointInsteadOfRange')
+
+    if doLandAtPoint
       if @direction == 'forward'
         lastPositionPoint = [@lastPosition.end, @lastPosition.end]
       else
         lastPositionPoint = [@lastPosition.start, @lastPosition.start]
       @editSession.setSelectedBufferRange(lastPositionPoint)
+    else
+      @editSession.setSelectedBufferRange(@lastPosition)
 
   cancelSearch: ->
     if @startMarker

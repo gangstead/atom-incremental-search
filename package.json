@@ -30,6 +30,11 @@
       "type": "boolean",
       "default": true,
       "description": "Keep the values of the Match Case and Use Regex options between searches."
+    },
+    "landAtPointInsteadOfRange": {
+      "type": "boolean",
+      "default": false,
+      "description": "Leave your cursor at a single point instead of selecting your search term."
     }
   }
 }
