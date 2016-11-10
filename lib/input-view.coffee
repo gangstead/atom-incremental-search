@@ -40,6 +40,9 @@ class InputView extends View
       'incremental-search:focus-editor': => @focusEditor()
       'incremental-search:slurp': => @slurp()
 
+    @findEditor.on 'blur', =>
+      @cancelSearch()
+
     @regexOptionButton.on 'click', @toggleRegexOption
     @caseOptionButton.on 'click', @toggleCaseOption
 
