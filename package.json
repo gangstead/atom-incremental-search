@@ -1,7 +1,7 @@
 {
   "name": "incremental-search",
   "main": "./lib/isearch",
-  "version": "5.1.0",
+  "version": "5.2.0",
   "description": "Incremental search for Atom",
   "activationCommands": {
     "atom-workspace": [
