@@ -35,6 +35,11 @@
       "type": "boolean",
       "default": false,
       "description": "Leave your cursor at a single point instead of selecting your search term."
+    },
+    "cancelSearchOnBlur": {
+      "type": "boolean",
+      "default": false,
+      "description": "Cancel the search on blur event, i.e. clicking outside of the search bar."
     }
   }
 }

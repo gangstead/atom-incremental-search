@@ -40,6 +40,10 @@ class InputView extends View
       'incremental-search:focus-editor': => @focusEditor()
       'incremental-search:slurp': => @slurp()
 
+    if atom.config.get('incremental-search.cancelSearchOnBlur')
+      @findEditor.on 'blur', =>
+        @cancelSearch()
+
     @regexOptionButton.on 'click', @toggleRegexOption
     @caseOptionButton.on 'click', @toggleCaseOption
 
