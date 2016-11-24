@@ -169,7 +169,7 @@ class SearchModel
   cleanup: ->
     # Common clean up code used by stop and cancel.
 
-    unless atom.config.get('isearch.keepOptionsAfterSearch')
+    unless atom.config.get('incremental-search.keepOptionsAfterSearch')
       @useRegex = false
       @caseSensitive = false
       @emit 'updatedOptions'
