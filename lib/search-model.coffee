@@ -90,13 +90,8 @@ class SearchModel
 
       @subscriptions.add @changeSubscription
 
-      markerAttributes =
-        invalidate: 'inside'
-        replicate: false
-        persistent: false
-        isCurrent: false
       range = @editSession.getSelectedBufferRange()
-      @startMarker = @editSession.markBufferRange(range, markerAttributes)
+      @startMarker = @editSession.markBufferRange(range, invalidate: 'inside')
 
       @updateMarkers()
 
@@ -304,13 +299,7 @@ class SearchModel
       normalSearchRegex
 
   createMarker: (range) ->
-    markerAttributes =
-      class: @constructor.resultClass
-      invalidate: 'inside'
-      replicate: false
-      persistent: false
-      isCurrent: false
-    marker = @editSession.markBufferRange(range, markerAttributes)
+    marker = @editSession.markBufferRange(range, invalidate: 'inside')
     decoration = @editSession.decorateMarker(marker, type: 'highlight', class: @constructor.resultClass)
     marker
 
